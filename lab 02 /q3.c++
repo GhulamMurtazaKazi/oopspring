@@ -7,17 +7,22 @@ bool hasSubsetSum(int arr[], int size, int targetSum).
 
 #include<iostream>
 using namespace std;
-bool hasSubsetSum(int * arr,int n,int target,int i,int j) {
+int i=0,j=1;
+bool hasSubsetSum(int * arr,int n,int target) {
 	if (i==n) return false ;
 	if (arr[i]+arr[j]==target) 
 		return true;
 	if (j==n) {
-		j=++i;
+		++i;
+		j=i+1;
 	}
-	return hasSubsetSum(arr,n,target,i,++j);
+	else {
+		++j;
+	}
+	return hasSubsetSum(arr,n,target);
 }
 int main  () {
-	int n,target,i=0;
+	int n,target;
 	cout<<"enter the size of the array and target sum\n";
 	cin>>n>>target;
 	int*arr=new int[n];
@@ -27,6 +32,7 @@ int main  () {
 		++i;
 	}
 	i=0;
-	cout<<hasSubsetSum(arr,n,target,0,1);
+	cout<<hasSubsetSum(arr,n,target);
 	 return 0;
 }
+
