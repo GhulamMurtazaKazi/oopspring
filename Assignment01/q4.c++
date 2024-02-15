@@ -119,7 +119,7 @@ class rollercoaster {
 			flag=f;
 		}
 };
-int loadriders(rollercoaster ob2,int riders) {
+int loadriders(rollercoaster& ob2,int riders) {
 	if (riders<=ob2.getcapacity()) {
 		ob2.setriders(riders);
 		return 0;
@@ -129,17 +129,17 @@ int loadriders(rollercoaster ob2,int riders) {
 	return (riders-ob2.getcapacity());
 }	
 }
-int startride(rollercoaster ob2,int riders) {
+int startride(rollercoaster& ob2,int riders) {
 	ob2.setflag(true);
 		if (riders<ob2.getcapacity()) {
 		return (ob2.getcapacity()-riders);
 	}
 	else return -1;
 }
-void stopride(rollercoaster ob2) {
+void stopride(rollercoaster& ob2) {
 	ob2.setflag(false);
 }
-void unload(rollercoaster ob2) {
+void unload(rollercoaster& ob2) {
 	ob2.setriders(0);
 }
 int main () {
@@ -163,7 +163,7 @@ int main () {
 		//Assuming that a rollercoaster can have 5 turns in a day in the total duration of the amusement park
 		while (i<5) {	
 			cout<<"proceeding for  the "<<i+1<<" turn"<<endl;
-			cout<<"welcome on the "<<ob2.getname()<<"coaster\n";
+			cout<<"welcome on the "<<ob2.getname()<<" coaster\n";
 			cout<<"please enter the number of riders:\n";
 			cin>>riders;
 			if (loadriders(ob2,riders)==0) {
