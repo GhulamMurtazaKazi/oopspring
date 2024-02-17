@@ -46,5 +46,6 @@ int main () {
 				cout<<(*obj).getlocation()[i]<<endl;
 				++i;
 			}
+	delete obj;
 			return 0;
 }
