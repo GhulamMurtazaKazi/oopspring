@@ -42,3 +42,208 @@ squares in a perpendicular direction and then one square in the original directi
 Meanwhile, during the first move only, a pawn has two possible moves: it can move forward by one or two
 steps, only if there is nothing in its path.
 
+#include<iostream>
+#include<string>
+using namespace std;
+class chess_peice{
+	string name,color,symbol;
+	public:
+		chess_peice() {
+			name="pawn";
+			color="white";
+			symbol="p";
+		}
+		chess_peice(string n,string c,string s) {
+			name=n;
+			color=c;
+			symbol=s;
+		}
+		string getname() {
+			return name;
+		}
+		string getcolor() {
+			return color;
+		}
+		string getsymbol() {
+			return symbol;
+		}
+		void setname(string n) {
+		name=n;
+		 }
+		void setcolor(string c) { 
+		color=c;
+		}
+		void setsymbol(string s) {
+		symbol=s;
+		 }
+};
+class chessboard{
+	chess_peice board[8][8];
+	public:
+		chessboard() {
+			board[0][0]=chess_peice("rook","black","R");
+			board[0][1]=chess_peice("knight","black","N");
+				board[0][2]=chess_peice("Bishop","black","B");
+					board[0][3]=chess_peice("Queen","black","Q");
+						board[0][4]=chess_peice("king","black","K");
+							board[0][5]=chess_peice("Bishop","black","B");
+								board[0][6]=chess_peice("knight","black","N");
+									board[0][7]=chess_peice("rook","black","R");
+									for (int i=1;i<2;++i) {
+										for (int j=0;j<8;++j) {
+											board[i][j].setcolor("black");
+											board[i][j].setsymbol("P");
+										}
+									}
+									for (int i=2;i<6;i++) {
+									for (int j=0;j<8;++j) 
+										board[i][j].setsymbol("-");
+								}
+						board[7][0]=chess_peice("rook","white","r");
+			board[7][1]=chess_peice("knight","white","n");
+				board[7][2]=chess_peice("Bishop","white","b");
+					board[7][3]=chess_peice("Queen","white","q");
+						board[7][4]=chess_peice("king","white","k");
+							board[7][5]=chess_peice("Bishop","white","b");
+								board[7][6]=chess_peice("knight","white","n");
+									board[7][7]=chess_peice("rook","white","r");			
+		}
+		void display() 
+		{
+			int i=0,j;
+			while (i<8) {
+				j=0;
+				while (j<8) {
+					cout<<board[i][j].getsymbol()<<"\t";
+					++j;
+				}
+				cout<<endl;
+				++i;
+			}
+		}
+		bool move_peice(string source,string destination) {
+			int i,j,k,l;
+		i=source.at(0)-97;
+		j=source.at(1)-'0';
+		k=destination.at(0)-97;
+		l=destination.at(1)-'0';
+		if (board[i][j].getsymbol()=="p"||board[i][j].getsymbol()=="P") {
+			if ((i+k==l||i+2==k)&&(j==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+				}
+				else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			}
+		}
+		else if (board[i][j].getsymbol()=="N"||board[i][j].getsymbol()=="n") {
+			if ((i==k)&&(j+1==l||j+2==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i==k)&&(j-1==l||j-2==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i+1==k)&&(j+2==l)||(i+1==k)&&(j-2==l)) {
+			if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+				board[k][l]=board[i][j];
+						board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i-1==k)&&(j+2==l)||(i-1==k)&&(j-2==l)) {
+			if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+				board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i+1==k||i+2==k)&&(j==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+						board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+			if ((i-1==k||i-2==k)&&(j==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i+2==k&&j-1==l)||(i+2==k&&j+1==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		if ((i-2==k&&j-1==l)||(i-2==k&&j+1==l)) {
+				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+			else if (board[k][l].getsymbol()=="-") {
+					board[k][l]=board[i][j];
+					board[i][j].setsymbol("-");
+					return true;
+			}
+		}
+		}
+		return false ;
+	}
+};
+int main () {
+	chessboard game;
+	game.display();
+	return 0;
+}
