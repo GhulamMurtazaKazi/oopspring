@@ -99,14 +99,13 @@ class chessboard{
 									for (int j=0;j<8;++j) 
 										board[i][j].setsymbol("-");
 								}
-						board[7][0]=chess_peice("rook","white","r");
-			board[7][1]=chess_peice("knight","white","n");
-				board[7][2]=chess_peice("Bishop","white","b");
-					board[7][3]=chess_peice("Queen","white","q");
-						board[7][4]=chess_peice("king","white","k");
-							board[7][5]=chess_peice("Bishop","white","b");
-								board[7][6]=chess_peice("knight","white","n");
-									board[7][7]=chess_peice("rook","white","r");			
+					for(int i=7;i<8;++i) {
+						for (int j=0;j<8;++j) {
+							board[i][j]=board[i-7][j];
+							board[i][j].setcolor("white");
+							board[i][j].setsymbol(string(1, tolower(board[i-7][j].getsymbol().at(0))));
+						}
+					}
 		}
 		void display() 
 		{
@@ -167,4 +166,3 @@ int main () {
 	else cout<<"invalid move\n";
 	return 0;
 }
-
