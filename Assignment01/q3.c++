@@ -123,12 +123,12 @@ class chessboard{
 		}
 		bool move_peice(string source,string destination) {
 			int i,j,k,l;
-		i=source.at(0)-97;
-		j=source.at(1)-'0';
-		k=destination.at(0)-97;
-		l=destination.at(1)-'0';
+		i=(source.at(1)-56)*(-1);
+		j=source.at(0)-97;
+		k=(destination.at(1)-56)*(-1);
+		l=destination.at(0)-97;
 		if (board[i][j].getsymbol()=="p"||board[i][j].getsymbol()=="P") {
-			if ((i+k==l||i+2==k)&&(j==l)) {
+			if ((i+1==k||i+2==k)&&(j==l)) {
 				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
 					board[k][l]=board[i][j];
 					board[i][j].setsymbol("-");
@@ -142,91 +142,7 @@ class chessboard{
 			}
 		}
 		else if (board[i][j].getsymbol()=="N"||board[i][j].getsymbol()=="n") {
-			if ((i==k)&&(j+1==l||j+2==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i==k)&&(j-1==l||j-2==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i+1==k)&&(j+2==l)||(i+1==k)&&(j-2==l)) {
-			if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-				board[k][l]=board[i][j];
-						board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i-1==k)&&(j+2==l)||(i-1==k)&&(j-2==l)) {
-			if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-				board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i+1==k||i+2==k)&&(j==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-						board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-			if ((i-1==k||i-2==k)&&(j==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i+2==k&&j-1==l)||(i+2==k&&j+1==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-			else if (board[k][l].getsymbol()=="-") {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-			}
-		}
-		if ((i-2==k&&j-1==l)||(i-2==k&&j+1==l)) {
+			if ((k<i+3&&k>i-3)&&(l<j+3&&l>j-3)) {
 				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
 					board[k][l]=board[i][j];
 					board[i][j].setsymbol("-");
@@ -245,5 +161,10 @@ class chessboard{
 int main () {
 	chessboard game;
 	game.display();
+	if (game.move_peice("b8","d7")==true) game.display();
+	else cout<<"invalid move\n";
+	if (game.move_peice("b8","a6")==true) game.display();
+	else cout<<"invalid move\n";
 	return 0;
 }
+
