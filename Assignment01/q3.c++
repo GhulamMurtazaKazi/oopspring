@@ -127,13 +127,8 @@ class chessboard{
 		k=(destination.at(1)-56)*(-1);
 		l=destination.at(0)-97;
 		if (board[i][j].getsymbol()=="p"||board[i][j].getsymbol()=="P") {
-			if ((i+1==k||i+2==k)&&(j==l)) {
-				if (board[k][l].getsymbol()!="-"&&board[i][j].getcolor()!=board[k][l].getcolor()) {
-					board[k][l]=board[i][j];
-					board[i][j].setsymbol("-");
-					return true;
-				}
-				else if (board[k][l].getsymbol()=="-") {
+			if ((i+1==k||i+2==k||i-1==k||i-2==k)&&(j==l)) {
+				 if (((board[i][j].getcolor()=="white"&&k<7)||(board[i][j].getcolor()=="black"&&k>0))&&board[k][l].getsymbol()=="-") {
 					board[k][l]=board[i][j];
 					board[i][j].setsymbol("-");
 					return true;
