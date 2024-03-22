@@ -1,0 +1,69 @@
+#include<iostream>
+using namespace std;
+class bankaccount{
+	int accno;
+	string accholder;
+	double balance;
+	public:
+		bankaccount(int accno,string accholder,double balance):accno(accno),accholder(accholder),balance(balance) { }
+		void deposit(double amount) { balance+=amount; }
+		void withdraw(double amount) {
+			if (balance-amount>=0) {
+			balance-=amount;
+			cout<<"withdraw successful\n";
+		}
+			else 
+			cout<<"insufficient balance\n";
+		}
+		void display()  {
+			cout<<"account holder="<<accholder<<"\naccount number="<<accno<<"\nbalance="<<balance<<endl;
+		}
+};
+int main() {
+	bankaccount obj[3]={bankaccount(1233,"Murtaza",20000000),bankaccount(1321,"fawad",20440000),bankaccount(1001,"batman",0)};
+	int i=0;
+	while (i<3) {
+		obj[i].display();
+		obj[i].deposit(500);
+		obj[i].withdraw(200);
+		obj[i].display();
+		cout<<endl<<endl;
+		++i;
+	}
+	return 0;
+}
+
+#include<iostream>
+using namespace std;
+class bankaccount{
+	int accno;
+	string accholder;
+	double balance;
+	public:
+		bankaccount(int accno,string accholder,double balance):accno(accno),accholder(accholder),balance(balance) { }
+		void deposit(double amount) { balance+=amount; }
+		void withdraw(double amount) {
+			if (balance-amount>=0) {
+			balance-=amount;
+			cout<<"withdraw successful\n";
+		}
+			else 
+			cout<<"insufficient balance\n";
+		}
+		void display()  {
+			cout<<"account holder="<<accholder<<"\naccount number="<<accno<<"\nbalance="<<balance<<endl;
+		}
+};
+int main() {
+	bankaccount obj[3]={bankaccount(1233,"Murtaza",20000000),bankaccount(1321,"fawad",20440000),bankaccount(1001,"batman",0)};
+	int i=0;
+	while (i<3) {
+		obj[i].display();
+		obj[i].deposit(500);
+		obj[i].withdraw(200);
+		obj[i].display();
+		cout<<endl<<endl;
+		++i;
+	}
+	return 0;
+}
