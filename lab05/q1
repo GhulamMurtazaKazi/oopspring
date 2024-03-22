@@ -1,1 +1,52 @@
+Create a class called Square with the following attributes:
+• sideLength – float variable
+• area – float variable
+• allareas – static float variable
+Create the following methods for your class:
+• Constructors (default and parameterized (only takes sideLength as input))
+• Function to calculate area, the calculated area should always be added to the allareas
+variable each time an area is calculated. (assume it’s called only once for each object)
+• Getters and Setters for all variables
+In your main function create 3 Squares with different sideLength. Call the area method for
+each of those Square objects. After each time the area method is called, call that square’s
+getters for area and allareas to display the updated values.
+
+#include<iostream>
+using namespace std;
+class square{
+	float sidelength;
+	float area;
+	static float allareas;
+	public:
+		square() {
+			sidelength=0;
+			area=0;
+		}
+		square (float sidelength):sidelength(sidelength) { calculatearea(); }
+		void calculatearea() {
+			area=sidelength*sidelength;
+			allareas+=area;
+		}
+		void setsidelength(float sidelength){
+			this->sidelength=sidelength;
+		}
+		float getsidelength() {
+			return sidelength;
+		}
+		float getarea() {
+			return area;
+		}
+		static float getallareas() {
+			return allareas;
+		}
+};
+float square::allareas=0;
+int main () {
+	square sq[3]={square(4),square(6),square(3)};
+	for (int i=0;i<3;++i) {
+		cout<<"square "<<i+1<<" area="<<sq[i].getarea()<<endl;
+	}
+	cout<<"total area="<<square::getallareas();
+	return 0;
+}
 
