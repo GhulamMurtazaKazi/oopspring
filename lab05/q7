@@ -1,0 +1,99 @@
+Implement a restaurant ordering system that holds information about the restaurant’smenus,
+menu items, orders, and payments. Identify the relationship between the five entities
+mentioned. Keep in mind the following information as well:
+a) Menu Items hold two things: food name and food price.
+b) Menu is a class that holds an array of menu items. You can have different functionstoadd
+and remove items, or display the entire menu.
+c) Restaurant ordering system has one menu.
+d) Any staff member can place an order to the system on behalf of a customer. Theorder
+class consists of one or more menu items and a payment.
+e) Payment is a class that holds the amount of money that a customer needs to pay.This is
+generated when the order is placed.
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class MenuItems{
+	public:
+		string name;
+		float price;
+};
+
+class Menu{
+	vector<MenuItems>list;
+	public:
+		void additem(string name,float price) {
+			list.push_back({name,price});
+		}
+		void removeitem(string name) {
+			for (int i=0; i<list.size(); ++i) {
+				if (list[i].name==name) {
+					list.erase(list.begin()+i);
+					return;
+				}
+			}
+			cout<<"item not found\n";
+		}
+		void display() {
+			for (int i=0; i<list.size(); ++i) {
+				cout<<list[i].name<<"\t"<<list[i].price<<endl;
+			}
+		}
+		vector<MenuItems>& getlist() {
+			return list;
+		}
+};
+
+class order{
+	Menu m;
+	vector<MenuItems>orders;
+	public:
+		void takeorder(string name) {
+			for(int i=0; i<m.getlist().size(); ++i) {
+				if (m.getlist()[i].name==name) {
+					orders.push_back(m.getlist()[i]);
+					return;
+				}
+			}
+			cout << "Item not found in the menu.\n";
+		}
+		Menu& getmenu() { return m; }
+};
+
+int main() {
+	order MyRestaurant;
+	int n;
+	while (1) {
+		cout<<"enter 1 to add item in the menu\nenter 2 to remove item from the menu\nenter 3 to display the menu\nenter 4 to place an order\nenter 5 to exit\n";
+		cin>>n;
+		if (n==1) {
+			string name;
+			float price;
+			cout<<"enter item and its price\n";
+			cin>>name>>price;
+			MyRestaurant.getmenu().additem(name,price);
+		}
+		else if (n==2) {
+			string name;
+			cout<<"enter the item name\n";
+			cin>>name;
+			MyRestaurant.getmenu().removeitem(name);
+		}
+		else if (n==3) {
+			MyRestaurant.getmenu().display();	
+		}
+		else if (n==4) {
+			string item;
+			cout<<"enter the item\n";
+			cin>>item;
+			MyRestaurant.takeorder(item);
+		}
+		else if (n==5) {
+			return 0;
+		}
+		else {
+			cout << "Invalid option. Please enter a number between 1 and 5.\n";
+		}
+	}
+}
