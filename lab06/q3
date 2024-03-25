@@ -1,0 +1,60 @@
+You have been hired to develop a program for a hair salon that keeps track of
+appointments made, total earnings, and the average cost per appointment using
+static members and functions.,
+Your task is to define a class that represents an appointment at the salon. The class
+should have private data members that store information about the appointment, and
+static data members that keep track of the total number of appointments made and
+the total earnings from all appointments.
+
+Define a constructor for the appointment class that takes arguments for the
+appointment details and updates the static data members accordingly. Additionally,
+you should define public member functions that allow access to the appointment
+details.
+Finally, you should define a static function that calculates and returns the average
+cost of all the appointments made. This function should use the static data members
+to perform the calculation.
+In the main function, you should create several instances of the appointment class
+with different appointment details, and then call the static function to calculate the
+average cost of all the appointments made. This will allow you to verify that the
+program is correctly keeping track of appointments and earnings
+
+#include<iostream>
+using namespace std;
+class appointment{
+	string customer,time;
+	int date,price;
+	static int total,earnings;
+	public:
+		appointment(string customer,string time,int date,int price):customer(customer),time(time),date(date),price(price) {
+			total++;
+			earnings+=price;
+		}
+		static float average() {
+			return (earnings/total);
+		}
+		string getcustomer() {
+			return customer;
+		}
+		string gettime() {
+			return time;
+		}
+		int getdate() {
+			return date;
+		}
+		int getprice() {
+			return price;
+		}
+		int gettotal() {
+			return total;
+		}
+		int getearnings() {
+			return earnings;
+		}
+};
+int appointment::total=0;
+int appointment::earnings=0;
+int main () {
+	appointment a("murtaza","8:00 AM",12,6000),b("fawad","9:45 PM",12,50),c("mehfooz","12:00 AM",14,4000);
+	cout<<"average cost per appointment is "<<appointment::average();
+	return 0;
+}
