@@ -1,0 +1,34 @@
+Create a class called ValidateString. The purpose of this class will be check if the given
+characters in a string are alphabet only. Numbers and symbols will mean that the string is
+invalid. By using a parameterized constructor, create multiple objects for your class that accept
+different strings. Create a constant function that checks whether the string variable is valid or
+not.
+What happens if you do not make your function constant? Add a comment right above your
+function explaining why we make a function constant.
+
+#include<iostream>
+using namespace std;
+class validatestring{
+	string str;
+	public:
+		validatestring(string str):str(str) { }
+		void checkstring() const{
+			int j=0;
+			while (j<str.length()) {
+			if (str.at(j)<65||str.at(j)>122||(str.at(j)>90&&str.at(j)<97)) 
+			{	
+				cout<<"invalid string "<<str<<endl;	
+			return ;
+		}
+		++j;
+	}
+		cout<<"valid  string "<<str<<endl;	
+		}
+};
+int main () {
+	validatestring obj1("murtaza"),obj2("iq3331"),obj3("**//@@");
+	obj1.checkstring();
+	obj2.checkstring();
+	obj3.checkstring();
+	return 0;
+}
