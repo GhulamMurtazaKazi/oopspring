@@ -1,0 +1,27 @@
+Write a program that uses composition to implement a game engine. A game engine is madeup
+of several components. For example:
+a) Graphics rendering engine
+b) Input handler
+c) Physics engine
+You don’t have to write the logic for how these individual components work.
+
+#include<iostream>
+using namespace std;
+class graphicrenderingengine{
+	//code for this  class
+};
+class inputhandler{
+	//code for this  class
+};
+class physicsengine{
+	//code for this  class
+};
+class gameengine{
+	graphicrenderingengine obj1;
+	inputhandler obj2;
+	physicsengine obj3;
+};
+int main () {
+	gameengine nvidia;
+	return 0;
+}
