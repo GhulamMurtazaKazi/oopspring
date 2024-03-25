@@ -1,0 +1,108 @@
+Consider a banking system where you have a BankAccount class representing
+individual accounts. Each BankAccount object contains a pointer to an array of
+transactions representing the account history.
+For that, create class BankAccount which contains the private member variables int
+accountId, double balance to store account information., int* transactionHistory is a
+pointer to an array storing transaction history and int numTransactions used to
+stores the number of transactions.
+Also, the class should have the following Public Member Functions:
+Constructor that initializes account information and allocates memory for the
+transaction history, copying provided transactions.
+Copy constructor that creates a new BankAccount object as a copy of another
+BankAccount object, including its transaction history.
+Destructor that deallocates memory allocated for the transaction history.
+display() Function: function to output the account details including the account ID,
+balance, and transaction history.
+updateTransactionHistory() Function:
+This function updates the transaction history of the BankAccount object.
+It deletes the existing transaction history, allocates memory for the new transaction
+history, and copies the new transaction data into the allocated memory.
+Main Function:
+Create a BankAccount object with initial account details and transaction history.
+Create a copy of the original account.
+Displays the details of both the original and copied accounts using the display()
+function.
+Now , call updateTransactionHistory() Function to update the transaction history of
+the original account to observe the changes.
+Now call the display function to see the changes.
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+class bankaccount{
+	int accid;
+	double balance;
+	int numTransactions;
+	int* transactionhistory_1;
+	int* transactionhistory_2;
+	public:
+		bool flag=1;
+		bankaccount(int accid,double balance,int numTransactions,int* arr):accid(accid),balance(balance),numTransactions(numTransactions) {
+		transactionhistory_1=new int[numTransactions];
+		int i=0;
+		while (i<numTransactions) {
+		transactionhistory_1[i]=arr[i];	
+		++i;
+	}
+		}
+		bankaccount(const bankaccount& obj) {
+			accid=obj.accid;
+			balance=obj.balance;
+			numTransactions=obj.numTransactions;
+			transactionhistory_1=new int[numTransactions];
+		int i=0;
+		while (i<numTransactions) {
+			if (obj.flag==1)
+		transactionhistory_1[i]=obj.transactionhistory_1[i];
+		else 
+			transactionhistory_1[i]=obj.transactionhistory_2[i];	
+	++i;
+	}
+		}
+		~bankaccount() {
+			delete[] transactionhistory_1;
+			delete[] transactionhistory_2;
+		}
+		void display() {
+			cout<<"account id="<<accid<<endl;
+			cout<<"balance="<<balance<<endl;
+			int i=0;
+			cout<<"transaction history:\n";
+			while (i<numTransactions) {
+				if (flag==1)
+				cout<<transactionhistory_1[i]<<endl;
+				else
+				cout<<transactionhistory_2[i]<<endl;
+				++i;
+			}
+		}
+		void updatetransaction() {
+			numTransactions++;
+			if  (flag==1) {
+				transactionhistory_2=new int[numTransactions];
+				copy(transactionhistory_1,transactionhistory_1+(numTransactions-1),transactionhistory_2);
+				delete[] transactionhistory_1;
+				cout<<"enter your transaction\n";
+				cin>>transactionhistory_2[numTransactions-1];
+				flag=0;
+			}
+			else {
+				transactionhistory_1=new int[numTransactions];
+				copy(transactionhistory_2,transactionhistory_2+(numTransactions-1),transactionhistory_1);
+				delete[] transactionhistory_2;
+				cout<<"enter your transaction\n";
+				cin>>transactionhistory_1[numTransactions-1];
+				flag=1;
+			}
+		}
+};
+int main () {
+	int arr[5]={10000,10000,10000,100000,1000000};
+	bankaccount myacc(20,10000000,5,arr);
+	bankaccount copyacc=myacc;
+	myacc.display();
+	copyacc.display();
+	myacc.updatetransaction();
+	myacc.display();
+	return 0;
+}
