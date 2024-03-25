@@ -1,0 +1,135 @@
+Keeping in mind our previous car example, write a class that represents a car, and use
+aggregation and composition to combine different components like engine, wheels,
+headlights and steering to create the car object.
+
+Hint: create the individual classes first before performing the composition.
+Remember that for aggregation, you will need pointers! You’ll be needing
+constructors and setters to set these values in case of aggregation. Same hint
+applies to other questions.
+
+#include<iostream>
+using namespace std;
+
+class headlights{
+    string colour;
+    bool status;
+public:
+    headlights() {}
+    headlights(string colour):colour(colour),status(0) { }
+    void switchlight(bool status) { this->status=status; }
+    string getcolour() {
+        return colour;
+    }
+    bool getstatus() {
+        return status;
+    }
+};
+
+class engine{
+    string manufacturer,model;
+    int horsepower,year;
+public:
+    engine() {}
+    engine(string manufacturer,string model,int year,int horsepower):manufacturer(manufacturer),model(model),year(year),horsepower(horsepower) { }
+    string getmodel() {
+        return model;
+    }
+    int getyear() {
+        return year;
+    }
+    string getmanufacturer() {
+        return manufacturer;
+    }
+    int gethp() {
+        return horsepower;
+    }
+};
+
+class steering{
+    string material,colour,manufacturer;
+public:
+    steering() {}
+    steering(string material,string colour,string manufacturer):material(material),colour(colour),manufacturer(manufacturer) {
+    }
+    string getmaterial() {
+        return material;
+    }
+    string getcolour() {
+        return colour;
+    }
+    string getmanufacturer() {
+        return manufacturer;
+    }
+};
+
+class wheels{
+    string company;
+    int price;
+public:
+    wheels() {}
+    wheels(string company,int price):company(company),price(price) {
+    }
+    string getcompany() {
+        return company;
+    }
+    int getprice() { 
+        return price;
+    }
+};
+
+class car{
+    string colour,model,company;
+    int year,price;
+    engine e;
+    wheels w;
+    headlights h;
+    steering s;
+public:
+    car(string a,string c,string d,int e,int f,string g,string h,string i,string j,int k,string l,string m,string n,int o,int p):colour(l),model(m),company(n),year(o),price(p) {
+        this->h=headlights(a);
+        this->e=engine(c,d,e,f);
+        s=steering(g,h,i);
+        w=wheels(j,k);
+    }
+    string getcolour() {
+        return colour;
+    }
+    string getmodel() {
+        return model;
+    }
+    string getcompany() {
+        return company;
+    }
+    int getyear() {
+        return year;
+    }
+    int getprice() {
+        return price;
+    }
+    void reverse() {}
+    void drift() {}
+    void refill() {}
+    void applybrakes() {}
+    void accelerate() {}
+};
+
+int main () {
+    car c("blue","tate","AF&-(90)",750,2024,"water","brown","batman","stark industries",150,"red","chirron","bugatti",2024,230000000);
+    
+    // Print some details about the car
+    cout << "Car Details:" << endl;
+    cout << "Colour: " << c.getcolour() << endl;
+    cout << "Model: " << c.getmodel() << endl;
+    cout << "Company: " << c.getcompany() << endl;
+    cout << "Year: " << c.getyear() << endl;
+    cout << "Price: " << c.getprice() << endl;
+
+    // Perform some actions with the car
+    c.reverse();
+    c.drift();
+    c.refill();
+    c.applybrakes();
+    c.accelerate();
+
+    return 0;
+}
