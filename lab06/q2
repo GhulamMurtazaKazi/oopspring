@@ -1,0 +1,98 @@
+Consider that You're working on Images to handle images in your graphics
+application. Each Image object contains a pointer to image data stored in memory.
+You are asked to create Image Class: The Image class represents an image with
+width, height, and image data as private. The data member represents the image data
+stored in memory. It's a pointer to a block of memory where the actual pixel values
+of the image are stored.
+Create Constructor: Constructor that initializes the width, height, and data pointer. It
+dynamically allocates memory for the image data and copies the provided data. By
+copying the provided image data, the Image class creates an independent copy of the
+data. This means that modifications made to the original image data outside the class
+won't affect the internal representation of the image within the Image object.
+Create Copy constructor that creates a new Image object as a copy of another Image
+object. It allocates memory for the image data and copies the data from the original
+image.
+Class must have Destructor that deallocates the memory allocated for the image
+data.
+Create void display(): Displays the image data.
+Create the updateData function: that takes original image data and updates those
+values which are 0 are less than 0 with any random value between the range of 1<=255
+Main Function:
+Create an Image object with dimensions 2x3 and initialize it with sample data.
+Creates a copy of the original image.
+Displays the data of both the original and copied images using the display() function.
+After that call the updateData function and then call the display() function again to
+verify that changes are made in both original and copied data.
+
+#include<iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+class image{
+	int width, height;
+	int** data;
+	public:
+		image(int width, int height, int arr[][2]): width(width), height(height) {
+			data = new int*[height];
+			for (int i = 0; i < height; ++i) {
+				data[i] = new int[width];
+				for (int j = 0; j < width; ++j) {
+					data[i][j] = arr[i][j];
+				}
+			}
+		}
+
+		image(const image& obj) {
+			width = obj.width;
+			height = obj.height;
+			data = new int*[height];
+			for (int i = 0; i < height; ++i) {
+				data[i] = new int[width];
+				for (int j = 0; j < width; ++j) {
+					data[i][j] = obj.data[i][j];
+				}
+			}
+		}
+
+		~image() {
+			for(int i = 0; i < height; ++i) {
+				delete[] data[i];
+			}
+			delete[] data;
+		}
+
+		void display() {
+			cout << "height=" << height << "\nwidth=" << width << endl;
+			for(int i = 0; i < height; ++i) {
+				for (int j = 0; j < width; ++j) {
+					cout << data[i][j] << "\t";
+				}
+				cout << endl;
+			}
+		}
+
+		void update() {
+			srand(time(0));
+			for (int i = 0; i < height; ++i) {
+				for(int j = 0; j < width; ++j) {
+					if (data[i][j] <= 0) {
+						data[i][j] = rand() % 255 + 1;
+					}
+				}
+			}
+		}
+};
+
+int main () {
+	int arr[3][2] = { {1, 2}, {0, 3}, {245, 122} };
+	image img(2, 3, arr);
+	image copy = img;
+	img.display();
+	copy.display();
+	img.update();
+	copy.update();
+	img.display();
+	copy.display();
+	return 0;
+}
