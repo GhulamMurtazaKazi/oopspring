@@ -1,0 +1,151 @@
+Daraz Loyalty Program System
+In this scenario, Daraz is launching a loyalty program for its customers.
+Design a class named DarazPersonData with the following member variables:
+● lastName (string)
+● firstName (string)
+● address (string)
+● city (string)
+● state (string)
+● zip (string)
+● phone (string)
+• Write the appropriate accessor and mutator functions for these member variables.
+Next, design a class named DarazCustomerData. The DarazCustomerData class should have the
+following member variables:
+● customerNumber (an int)
+● loyaltyPoints (an int)
+The customerNumber variable will hold a unique integer for each customer. The loyaltyPoints
+variable will track the loyalty points earned by the customer. Write appropriate accessor and
+mutator functions for these member variables.
+Design a class named DarazLoyaltyProgram to manage the loyalty program:
+● Include functions to add loyalty points for purchases, redeem loyalty points for discounts,
+and display the total loyalty points for a customer.
+Demonstrate the classes in a program by creating objects and performing operations such as
+adding loyalty points for purchases, redeeming loyalty points for discounts, and displaying total
+loyalty points for a customer.
+Input Validation: Do not accept negative values for loyalty points or invalid customer
+numbers.
+
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+class darazpersondata{
+	protected:
+	string lastname,firstname,address,city,state,zip,phone;
+	public:
+	void setlastname(string lastname) { this->lastname=lastname; }
+	void setfirstname(string firstname) { this->firstname=firstname; }
+	void setaddress(string address) { this->address=address; }
+	void setcity(string city) { this->city=city; }
+	void setstate(string state) { this->state=state; }
+	void setzip(string zip) { this->zip=zip; }	
+	void setphone(string phone) { this->phone=phone; }
+	string getlastname() { return lastname; }
+		string getfirstname() { return firstname; }
+			string getaddress() { return address; }
+				string getcity() { return city; }
+					string getstate() { return state; }
+						string getzip() { return zip; }
+							string getphone() { return phone; }	
+};
+class darazcustomerdata:public darazpersondata{
+	protected:
+	int number,points;
+	public:
+		void setnumber(int number) { this->number=number; }
+		void setpoints(int points) { this->points=points; }
+		int getnumber() { return number;}
+		int getpoints() { return points; }
+};
+class darazloyaltyprogram:public darazcustomerdata{
+	public:
+		void addpoints() {
+		 //on every purchase 2 points are added
+		 cout<<"enter the item  you would like to purchase\n";
+		 string str;
+		 cin>>str;
+		points+=2;
+		}
+		void redeempoints() {
+		//atleast 20 points are required to get a free item
+		if (points<20) cout<<"insufficient points\n";
+		else {
+	cout<<"enter the item you want to buy\n";
+	string str;
+	cin>>str;
+	points-=20;
+}
+	}
+		void display() {
+			cout<<"your wallet="<<points<<endl;
+		}
+};
+int main () {
+	vector<string>items;
+		string str;
+			int n,i=0,p;
+	cout<<"enter the items\n";
+	while (1) {
+		getline(cin,str);
+		if(str=="0") break;
+		items.insert(items.begin()+i,str);
+		++i;
+	}
+	cout<<"enter the no of customers\n";
+	cin>>n;
+	i=0;
+	darazloyaltyprogram obj;
+	while (i<n) {
+	cout<<"proceed with fillling in your data\n";
+	cout<<"enter your first name\n";
+	cin>>str;
+		obj.setfirstname(str);
+			cout<<"enter your last name\n";
+	cin>>str;
+		obj.setlastname(str);
+			cout<<"enter your address\n";
+	cin>>str;
+		obj.setaddress(str);
+			cout<<"enter your city name\n";
+	cin>>str;
+		obj.setcity(str);
+			cout<<"enter your state\n";
+	cin>>str;
+		obj.setstate(str);
+			cout<<"enter your zip\n";
+	cin>>str;
+		obj.setzip(str);
+			cout<<"enter your phone\n";
+	cin>>str;
+		obj.setphone(str);
+		obj.setnumber(i);
+		cout<<"enter the points you have accumulated so far\n";
+		cin>>p;
+		while (1) {
+			if (p>=0) break;
+			cout<<"enter a positive value\n";
+			cin>>p;
+		}
+		obj.setpoints(p);
+		while (1) {
+			int j;
+		cout<<"enter 1 to display the items\nenter 2 to make a purchase\nenter 3 to display the total points\nenter 4 to redeem points\nenter 5 to exit\n";
+		cin>>j;
+		if (j==1) {
+			j=0;
+			while (j<items.size()) {
+				cout<<items[j]<<endl;
+				++j;
+			}
+		}
+		else if (j==2) 
+			obj.addpoints();
+		else if (j==3)  obj.display();
+		else if (j==4) obj.redeempoints();
+		else break;
+	}
+	// moving on to the next customer
+	++i;
+}
+return 0;
+}
