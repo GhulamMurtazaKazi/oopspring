@@ -1,0 +1,243 @@
+You've been tasked with designing the core components of a social media app similar to
+Instagram. The app will allow users to create profiles, post content, interact with posts (e.g.,
+liking, commenting), and view their feed. There are different types of users, each with specific
+functionalities and access levels.
+Tasks:
+User Class Design:
+• Design a base class User to represent common attributes and functionalities shared by all
+users, including username, email, and password.
+• Implement user verification and password encryption to enhance security.
+[Choose a suitable encryption algorithm (e.g., bcrypt, Argon2) for securely hashing passwords.]
+
+Derived User Classes:
+• Create derived classes for different types of users: RegularUser, and BusinessUser.
+• Each derived class should inherit from the User class and provide specialized behavior
+based on the user's role and access level.
+o RegularUser Class:
+▪ Limited Posting: Regular users can post a maximum of 5 posts. Implement logic
+to enforce this limit.
+▪ Interactions: Regular users can like posts, comment on posts, and view their feed.
+• The RegularUser class maintains an array feed to store pointers to Post
+objects.
+• The addToFeed() method adds a post to the feed if there is space available.
+• The viewFeed() method displays the posts in the feed by iterating over the
+array and calling the display() method of each Post object.
+• Note: max feed size is 10; static const int MAX_FEED_SIZE = 10;
+
+o BusinessUser Class:
+▪ Post Promotion: Business users can promote their posts to reach a larger audience.
+Implement a method to promote posts.
+• User Validation: Ensure that only BusinessUser objects can invoke the
+promotePost() method.
+
+• Promotion Limit: Apply a limit on the number of posts a business user can
+promote. [let’s say 10 posts only]
+• Post Visibility: A custom logic within the promotePost() method to
+increase the post's likes by double and views by thrice.
+
+▪ Analytics Integration: Enhance the User and Post classes to include the following
+analytics functionalities:
+• Likes Tracking: Implement methods to track and retrieve the number of
+likes for each post.
+• Comments Tracking: Implement methods to track and retrieve the number
+of comments for each post.
+• Views Tracking: Implement methods to track and retrieve the number of
+views for each post.
+
+Post Class Design:
+• Define a class Post to represent individual posts in the app. Consider properties like
+postId, content, likes, comments, etc., and methods for adding comments, liking posts,
+and displaying post details.
+Interaction Simulation:
+• Simulate interactions within the app by creating instances of different types of users and
+posts. Demonstrate how users can post content, interact with posts (e.g., liking,
+commenting), and view their feed. Use polymorphism to ensure that the same methods
+can be used uniformly across different user types.
+
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+class post{
+	string postid,content;
+	int likes=0,views=0;
+	vector<string>comments;
+	public:
+		void setid(string postid) { this->postid=postid; }
+		string getid() {  return postid; }
+		void addview() { views++; }
+		void addcomment(string str) {
+			comments.push_back(str);
+		}
+		void addlike () { likes++; }
+		void setcontent(string content) { this->content=content; }
+		int getlikes() { return likes; }
+		vector<string>& getcomments() { return comments; }
+		int getnocomments() { return comments.size(); }
+		int getviews() { return views; }
+		void display() {
+			cout<<"post by "<<postid << endl;
+			cout << content << endl;
+			cout << "likes=" << likes << "\t\tviews=" << views << "\t\tview comments\t\tadd comments\n";
+		}
+};
+
+class user{
+	protected:
+		string name,email,password,encrypted_password;
+		public:
+			void setname(string name) { this->name=name; }
+			void setemail(string email) { this->email=email; }
+			void setpassword(string password) { this->password=password; }
+			string getname() { return name; }
+			string getemail() { return email; }
+			string getpassword() { return password; }
+			void encryptpassword() {
+				int shift=4;
+			 string result = "";
+
+    for (int i = 0; i < password.length(); i++) {
+        if (isupper(password[i]))
+            result += char(int(password[i] + shift - 65) % 26 + 65);
+        else
+            result += char(int(password[i] + shift - 97) % 26 + 97);
+			}
+			encrypted_password=result;
+		}
+};
+class businessuser; // Forward declaration
+
+class regularusers:public user{
+	static vector<post>feed;
+	public:
+		friend class businessuser; 
+		int count=0;
+		void addpost() {
+			if (feed.size()==10) {
+				cout<<"sorry blud servers gave up\n";
+				return ;
+			}
+			count++;
+			if (count>5) {
+				cout<<"you have reached maximum post limit\n";
+				return ;
+			}
+			post obj;
+			cout<<"describe your post\n";
+			string str;
+			getline(cin, str);
+			obj.setcontent(str);
+			obj.setid(name);
+			feed.push_back(obj);
+		}
+		void your_posts() {
+			for(int i=0;i<feed.size();++i) {
+				if (feed[i].getid()==name)
+					feed[i].display();
+			}
+		}
+		static void for_you() {
+			int j;
+			for (int i=0;i<feed.size();++i) {
+				feed[i].display();
+					cout << "(1)\t\t\t\t\t(2)\t\t\t\t(3)\n";
+				cout<<"Enter your choice: ";
+				cin>>j;
+				cin.ignore(); // ignore newline character
+				if (j==1) feed[i].addlike();
+				else if (j==2) {
+					for (int k=0;k<feed[i].getcomments().size();++k)
+						cout<<feed[i].getcomments()[k]<<endl;
+				}
+				else {
+					string str;
+					cout<<"write the comment\n";
+					getline(cin,str);
+					feed[i].addcomment(str);
+				}
+			}
+		}
+};
+
+vector<post> regularusers::feed; // define static member
+
+class businessuser:public user  {
+	// the business account is only for the promotions of the posts and you cannot post anything  from this account
+	public:
+		int count=0;
+		void promotepost(int j) {
+		count++;
+		if (count>10) {
+			cout<<"you have already reached at the  limit\n";
+			return ;
+		}
+		for (int i=0;i<2;++i) regularusers::feed[j-1].addlike();
+			for (int i=0;i<3;++i) regularusers::feed[j-1].addview();
+		}
+};
+
+int main () {
+	//assuming that our this little insta lite can handle a traffic of 3 regular users and 3 business users
+	vector<regularusers> arr_1;
+	vector<businessuser> arr_2;
+	int i=0;
+	while (i<3) {
+		cout<<"enter your name: ";
+		string str;
+		getline(cin,str);
+		regularusers obj;
+		arr_1.push_back(obj);
+		arr_1[i].setname(str);
+		cout<<"enter your email address: ";
+		getline(cin,str);
+		arr_1[i].setemail(str);
+		cout<<"finally, enter a password to create an account: ";
+		getline(cin,str);
+		arr_1[i].setpassword(str);
+		arr_1[i].encryptpassword();
+		while (1) {
+			cout<<"enter 1 to add a post\nenter 2 to view your feed\nenter 3 to navigate back to your for you page\nenter 4 to exit\n";
+			int n;
+			cin>>n;
+			cin.ignore(); // ignore newline character
+			if (n==1) arr_1[i].addpost();
+			else if(n==2) arr_1[i].your_posts();
+			else if (n==3) regularusers::for_you();
+			else break;
+		}
+		++i;
+	}
+	i=0;
+	while (i<3) {
+		cout<<"enter your name: ";
+		string str;
+		getline(cin,str);
+		businessuser obj;
+		arr_2.push_back(obj);
+		arr_2[i].setname(str);
+		cout<<"enter your email address: ";
+		getline(cin,str);
+		arr_2[i].setemail(str);
+		cout<<"finally, enter a password to create an account: ";
+		getline(cin,str);
+		arr_2[i].setpassword(str);
+		arr_2[i].encryptpassword();
+		while (1) {
+			int j;
+			cout<<"enter 1 to navigate back to for you page\nenter 2 to request for promotion of a post\nenter 3 to exit\n";
+			cin>>j;
+			cin.ignore();
+			if (j==1) regularusers::for_you();
+			else if (j==2) {
+				cout<<"which post number would you like to promote?\n";
+				cin>>j;
+				cin.ignore();
+				arr_2[i].promotepost(j);
+			}
+			else break;
+		}
+		++i;
+	}
+	return 0;
+}
