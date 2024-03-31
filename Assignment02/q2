@@ -1,0 +1,159 @@
+You are tasked with creating an inheritance hierarchy for a gaming environment. The
+environment consists of different aspects of the game.
+Class Player:
+• Attributes: playerID (int), playerName (string), health (int)
+• Parameterized constructor that sets the attributes playerID, playerName. Health is
+initially initialized to 100 for the players.
+Class Weapon:
+• Attributes: weaponsList(contains a list of weapons)
+• Constructor: Initialize the weapons list. The list should at least contain 5 or more
+weapons
+• use( ): the function asks the user which weapon they want to use from the available list of
+weapons.
+Class Character:
+• Attributes: level (int), experience (string), points (int)
+• Constructor: Parameterized constructor to set all attributes. Initial level and points are
+always set to 0 and experience is always set to Beginner.
+• Function: levelUp(), increments the level and experience. The level and experience is
+incremented whenever the points are incremented by 10.
+The following conditions are applied for experience:
+1. If the experience is “Beginner” change the experience to “Intermediate”.
+2. If the experience is “Intermediate” change the experience to “Advanced”.
+3. If the experience is “Advanced” change the experience to “Expert”.
+• Function: playGame() – The Character can play game by using any weapon to attack the
+enemy. When a character attacks an enemy, the enemy’s health decrements by 5 and 10
+are added to the points.
+Class Enemy:
+• Attributes: damage (int).
+• Constructor: Parameterized constructor to set damage. Damage can be set from a value
+ranging from 1 to 10.
+• Function: void attack(), asks the users which weapon they want to use. When an enemy
+attacks a character, the character’s health decrements by the damage amount.
+In your main function, simulate the gaming environment and by showing all the experience
+starting from “Beginner” to “Expert”.
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include <cstdlib> 
+#include <ctime> // for generating random number 
+using namespace std;
+class player{
+	protected:
+	int id;
+	string name;
+	int health;
+	public:
+		player(string name,int id):name(name),health(100),id(id) { }
+			string getname() { return name;}
+		int getid() { return id;}
+		int gethealth() { return health; }
+};
+class weapon {
+	vector<string>weapons;
+	public:
+	string myweapon;
+		weapon() {
+			weapons.insert(weapons.begin(),{"chainsaw","mjolnir","storm breaker","lasso of truth","vapourizer"});
+		}
+		void use() {
+			int i=0;
+			cout<<"choose a  weapon\n";
+			while (i<weapons.size()) {
+				cout<<weapons[i]<<endl;
+				++i;
+			}
+			cin.ignore();
+			getline(cin,myweapon);
+		}
+}w;
+// it is a 2-player game having a protagonist and an antagonist(The enemy)
+//both have a list of weapons to choose from
+class character:public player{
+	int level,points;
+	string experience;
+	public:
+		int getlevel() { return level; }
+		int getpoints() { return points; }
+		string getexperience() { return experience; }
+		character(string name,int id):player(name,id),level(0),points(0),experience("beginner") { }
+		void levelup() {
+			level++;
+			cout<<"current level obtained:"<<level<<endl;
+			if (experience=="beginner") {
+			experience="Intermediate";
+			cout<<"hurrah!! promoted  to intermediate\n";
+		}
+			else if (experience=="Intermediate") {
+			experience="Advanced";
+				cout<<"hurrah!! promoted  to advanced\n";
+		}
+			else if (experience=="Advanced")  {
+			experience="expert";
+				cout<<"hurrah!! promoted  to expert\n";
+			}
+		}
+		void playgame() {
+			w.use();
+			points+=10;
+			levelup();
+		}
+		 void dec_health(int damage){
+			if (health-damage>0)
+			health-=damage;
+			else health=0;
+		}
+};
+class enemy:public player{
+	int damage;
+	public:
+		int getdamage() { return damage; }
+		enemy(string name,int id):player(name,id) {
+			srand(time(0));
+			damage=rand() % 10 + 1;
+		}
+		void  attack() {
+			w.use();
+		}
+		void dec_health() {
+			health-=5;
+		}
+};
+int main () {
+	cout<<"welcome to tournament of power\n";
+	cout<<"enter the name and id for the protagonist\n";
+	string name;
+	int id;
+	getline(cin,name);
+	cin>>id;
+	cin.ignore();
+	character protagonist(name,id);
+	cout<<"enter the name and id for the antagonist\n";
+	getline(cin,name);
+	cin>>id;
+	enemy antagonist(name,id);
+	while (1) {
+		cout<<"Protagonist's turn\n";
+		cout<<"enter 1 to attack\n";
+		cin>>id;
+		protagonist.playgame();
+		antagonist.dec_health();
+		if (antagonist.gethealth()==0) {
+			cout<<"The protagonist wins\nplayer name:"<<protagonist.getname()<<"\nplayer id:"<<protagonist.getid()<<"\nremmaining health:"<<protagonist.gethealth()<<endl;
+			cout<<"level:"<<protagonist.getlevel()<<"\npoints:"<<protagonist.getpoints()<<"\nexperience:"<<protagonist.getexperience()<<endl;
+			cout<<"The ultimate weapon of victory:"<<w.myweapon<<endl;
+			return 0;
+		}
+		cout<<"antagonist's turn\n";
+			cout<<"enter 0 to attack\n";
+		cin>>id;
+			antagonist.attack();
+		protagonist.dec_health(antagonist.getdamage());
+		if (protagonist.gethealth()==0) {
+				cout<<"The antagonist wins\nplayer name:"<<antagonist.getname()<<"\nplayer id:"<<antagonist.getid()<<"\nremmaining health:"<<antagonist.gethealth()<<endl;
+				cout<<"damage rate:"<<antagonist.getdamage();
+					cout<<"The ultimate weapon of victory:"<<w.myweapon<<endl;
+				return 0;
+		}
+	}
+}
