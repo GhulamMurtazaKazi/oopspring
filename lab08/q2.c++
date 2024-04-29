@@ -1,71 +1,65 @@
 #include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <ctime>
+#include <string>
 
 using namespace std;
 
-const int WIDTH = 5;
-const int HEIGHT = 7;
-
-class Image {
-private:
-    int width, height;
-    int* img_data;
+class Character {
 public:
-    Image(int w, int h, const int* data) : width(w), height(h) {
-        img_data = new int[width * height];
-        memcpy(img_data, data, width * height * sizeof(int));
-    }
+    int health;
+    int damage;
 
-    Image(const Image& obj) : width(obj.width), height(obj.height) {
-        img_data = new int[width * height];
-        memcpy(img_data, obj.img_data, width * height * sizeof(int));
-    }
+    Character(int health, int damage) : health(health), damage(damage) {}
 
-    void display() {
-        cout << "Image Specifications\n";
-        cout << "Height: " << height << endl;
-        cout << "Width: " << width << endl;
-        cout << "Image Data: \n";
-        for (int i = 0; i < width * height; ++i) {
-            cout << img_data[i] << " ";
-            if ((i + 1) % width == 0)
-                cout << "\n";
-        }
+    void display() const {
+        cout << "Health: " << health << "\n";
+        cout << "Damage: " << damage << "\n";
     }
+};
 
-    void updateData() {
-        for (int i = 0; i < width * height; i++) {
-            if (img_data[i] <= 0) {
-                img_data[i] = rand() % 255 + 1;
-            }
-        }
+class Enemy : public Character {
+public:
+    Enemy(int health, int damage) : Character(health, damage) {}
+
+    void display() const {
+        cout << "Enemy" << "\n";
+        Character::display();
     }
+};
 
-    ~Image() {
-        delete[] img_data;
+class Player : public Character {
+public:
+    Player(int health, int damage) : Character(health, damage) {}
+
+    void display() const {
+        cout << "Player" << "\n";
+        Character::display();
+    }
+};
+
+class Wizard : public Player {
+public:
+    int magic_power;
+    string spells;
+
+    Wizard(int health, int damage, int magic, const string& spells) : Player(health, damage), magic_power(magic), spells(spells) {}
+
+    void display() const {
+        cout << "Wizard" << "\n";
+        Player::display();
+        cout << "Magic Power: " << magic_power << "\n";
+        cout << "Spells: " << spells << "\n";
     }
 };
 
 int main() {
-    srand(static_cast<unsigned int>(time(0)));
+    Wizard wizard(
+        34,
+        32,
+        56,
+        "Shazammm"
+    );
 
-    int data[WIDTH * HEIGHT] = {23, 76, 4, 29, 101, 908,12,12,232,32,54,66,767,787,98976,21,34455,676,3422121,5667,78,8,9,5,4,433,3,};
-    Image img(WIDTH, HEIGHT, data);
-    Image img2 = img;
-
-    cout << "Original Image Specifications:\n";
-    img.display();
-    cout << "Copied Image Specifications:\n";
-    img2.display();
-
-    img.updateData();
-
-    cout << "Original Image Specifications after Update:\n";
-    img.display();
-    cout << "Copied Image Specifications after Update:\n";
-    img2.display();
+    wizard.display();
 
     return 0;
 }
