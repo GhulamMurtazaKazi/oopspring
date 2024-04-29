@@ -1,73 +1,42 @@
-
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-class BankAccount{
-    int accountId;
-    double balance;
-    int* transactionHistory;
-    int numTransactions;
-
+class Book {
+    string title;
+    string author;
+    string publisher;
 public:
-    BankAccount() {}
-
-    BankAccount(int accountId, double balance, int numTransactions) {
-        this->accountId = accountId;
-        this->balance = balance;
-        this->numTransactions = numTransactions;
-        transactionHistory = new int[numTransactions];
-        cout << "Enter the transaction history:\n";
-        for (size_t i = 0; i < numTransactions; i++) {
-            cout << "Enter Transaction number " << i + 1 << ": ";
-            cin >> this->transactionHistory[i];
-        }
+    Book(string title, string author, string publisher) {
+        this->title = title;
+        this->author = author;
+        this->publisher = publisher;
     }
 
-    BankAccount(const BankAccount &account) {
-        this->accountId = account.accountId;
-        this->balance = account.balance;
-        this->numTransactions = account.numTransactions;
-        this->transactionHistory = new int[numTransactions];
-        
-        for (int i = 0; i < numTransactions; i++) {
-            this->transactionHistory[i] = account.transactionHistory[i];
-        }
-    }
-    
     void display() {
-        cout << "Account Id: " << accountId << endl
-             << "Balance: " << balance << endl;
-
-        for (size_t i = 0; i < numTransactions; i++) {
-            cout << "Transaction number " << i + 1 << " is: " << transactionHistory[i] << endl;
-        }   
-        cout << endl; 
+        cout << "Title of Book: " << title << endl;
+        cout << "Author of Book: " << author << endl;
+        cout << "Publisher of Book: " << publisher << endl;
     }
-
-    ~BankAccount() {
-        delete[] transactionHistory;
-    }
-
-    void update() {
-        delete[] transactionHistory;
-        cout << "Enter the number of transactions: ";
-        cin >> numTransactions;
-        transactionHistory = new int[numTransactions];
-        for (size_t i = 0; i < numTransactions; i++) {
-            cout << "Enter Transaction number " << i + 1 << ": ";
-            cin >> this->transactionHistory[i];
-        }   
-    }   
 };
 
-int main() {
-    BankAccount obj1(1, 23.34, 3);
-    BankAccount copy(obj1);
+class FictionBook : public Book {
+    string genre;
+    string protagonist;
+public:
+    FictionBook(string title, string author, string publisher, string genre, string protagonist) : Book(title, author, publisher) {
+        this->genre = genre;
+        this->protagonist = protagonist;
+    }
 
-    cout << "------------- Main object -------------\n\n";
-    obj1.display();
-    cout << "------------- Copy object -------------\n\n";
-    copy.display();
-    
+    void display() {
+        Book::display(); // Call base class display function
+        cout << "Genretion of Book: " << genre << endl;
+        cout << "Protagonist of Book: " << protagonist << endl;
+    }
+};
+
+int main(int argc, char const *argv[]) {
+    FictionBook book("OOPs", "kazi", "Anonimus", "12th", "Jay");
+    book.display();
     return 0;
 }
