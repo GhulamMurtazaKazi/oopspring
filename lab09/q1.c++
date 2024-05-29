@@ -1,91 +1,71 @@
-#include <iostream>
-using namespace std;
-double pi = 3.14;
+You are tasked with developing a software module for a geometry library that calculates the
+areas and perimeters of various shapes. Your module needs to efficiently handle circles,
+rectangles, and triangles. You've decided to implement this module in C++, utilizing function
+overloading and a global constant for the value of pi.
+Your Shape class should have the following functionalities:
+Overloaded methods to calculate the area of a circle given its radius, the area of a rectangle
+given its length and width, and the area of a triangle given its base and height.
+Overloaded methods to calculate the perimeter of a circle given its radius, the perimeter of
+a rectangle given its length and width, and the perimeter of a triangle given its three sides.
+Additionally, ensure that your code is well-commented and demonstrates good coding
+practices such as encapsulation, abstraction, and meaningful variable naming. Provide a main
+function to demonstrate the usage of your Shape class by calculating and displaying the areas
+and perimeters of various shapes, utilizing the global constant for the value of pi.
 
-class Shap
-{
-public:
-    // Area of the shapes
-    float Area(double radious)
-    {
-        return pi * radious * radious;
+#include<iostream>
+#include<cmath>
+using namespace std;
+double pi=3.16;
+class shape {
+    public:
+    double area(double radius) {
+        return pi*radius*radius;
     }
-    int Area(int length, int width)
-    {
-        return length * width;
+    double area(double length,double width) {
+        return length*width;
     }
-    float Area(float base, float height)
-    {
-        return 0.5 * base * height;
+    double area(double a,double b,double c) {
+        double s=double(a+b+c)/2;
+        return sqrt(s*(s-a)*(s-b)*(s-c));
     }
-    // Perimeters of the shapes
-    float perimeter(double radious)
-    {
-        return 2 * pi * radious;
+    double perimeter(double radius) {
+        return 2*pi*radius;
     }
-    int perimeter(int length, int width)
-    {
-        return 2 * (length + width);
+    double perimeter(double length,double width) {
+        return 2*(length+width);
     }
-    float perimeter(float base, float height)
-    {
-        return 2 * (base + height);
+    double perimeter(double a,double b,double c) {
+        return a+b+c;
     }
 };
-
-int main(int argc, char const *argv[])
-{
-
-    while (1)
-    {
-        Shap shap;
-        int choice;
-        cout << endl
-             << endl
-             << "Menu" << endl
-             << "1. Circle" << endl
-             << "2. Rectangle" << endl
-             << "3. Triangle" << endl
-             << "4. Exit" << endl
-             << "Enter your choice: ";
-        cin >> choice;
-
-        switch (choice)
-        {
-        case 1:
-            double radious;
-            cout << "Enter the radious of the circle: ";
-            cin >> radious;
-            cout << "Area of the circle is: " << shap.Area(radious) << endl;
-            cout << "Perimeter of the circle is: " << shap.perimeter(radious) << endl;
-            break;
-        case 2:
-            int length, width;
-            cout << "Enter the length of the rectangle: ";
-            cin >> length;
-            cout << "Enter the Width of the rectangle: ";
-            cin >> width;
-
-            cout << "Area of the Rectangle: " << shap.Area(length, width) << endl;
-            cout << "Perimetere of the Rectangle: " << shap.perimeter(length, width) << endl;
-            break;
-        case 3:
-            float base, height;
-            cout << "Enter the base of the triangle: ";
-            cin >> base;
-            cout << "Enter the height of the triangle: ";
-            cin >> height;
-            cout << "Area of the Triangle: " << shap.Area(base, height) << endl;
-            cout << "Perimetere of the Triangle: " << shap.perimeter(base, height) << endl;
-            break;
-        case 4:
-            exit(0);
-            break;
-
-        default:
+int main() {
+     cout<<"Welcome to the geometric library\n";
+     shape s;
+    while (1) {
+        cout<<"select a shape\n1. circle\n2. rectangle\n3. triangle\n4. exit\n";
+        double n;
+        cin>>n;
+        if (n==1) {
+            cout<<"enter the radius for the circle\n";
+            cin>>n;
+            cout<<"the area and perimeter of circle are "<<s.area(n)<<" and "<<s.perimeter(n)<<" respectively\n";
+        }
+        else if (n==2) {
+            double m;
+            cout<<"enter the length and width for the rectangle\n";
+            cin>>m>>n;
+            cout<<"the area and perimeter of rectangle are "<<s.area(m,n)<<" and "<<s.perimeter(m,n)<<" respectively\n";
+        }
+        else if (n==3) {
+            double m,o;
+            cout<<"enter the 3 sides of the triangle\n";
+            cin>>m>>n>>o;
+            cout<<"the area and perimeter of triangle are "<<s.area(m,n,o)<<" and "<<s.perimeter(m,n,o)<<" respectively\n";
+        }
+        else if (n==4) {
+            cout<<"Thank you  for using the geometric library\n";
             break;
         }
     }
-
     return 0;
 }
